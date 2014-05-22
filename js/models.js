@@ -29,7 +29,11 @@ App.Warehouse = DS.Model.extend({
 });
 
 App.WarehouseSerializer = DS.RESTSerializer.extend({
-   primaryKey: 'whid'
+   // primaryKey: 'whid',
+    normalize: function(type,hash,property) {
+    	hash.id = hash.whid;
+		return this._super(type,hash,property);
+    }
 });
 
 // App.Product = DS.Model.extend({
