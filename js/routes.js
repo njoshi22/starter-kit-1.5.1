@@ -1,13 +1,8 @@
 App.TestsRoute = Ember.Route.extend({
   model: function() {
-  	return App.Tests.all();
+  	// return App.Tests.all();
+  	return Ember.$.getJSON('http://node-api.azurewebsites.net/api/v1/warehouses');
   }
-});
-
-App.TestsTestRoute = Ember.Route.extend({
-	model: function(params) {
-		return App.Tests.all().find('id',params.id)
-	}
 });
 
 App.IndexRoute = Ember.Route.extend({
@@ -16,6 +11,18 @@ App.IndexRoute = Ember.Route.extend({
 	}
 	//setupController: function(controller,)
 });
+
+App.WarehousesRoute = Ember.Route.extend({
+	model: function() {
+		return this.store.find('warehouse');
+	}
+});
+
+// App.WarehousesWarehouseRoute = Ember.Route.extend({
+// 	model: function(params) {
+// 		return this.store.findBy('warehouse',params.whid);
+// 	}
+// });
 
 // App.IndexController = Ember.Controller.extend({
 

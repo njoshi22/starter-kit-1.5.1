@@ -8,7 +8,7 @@
 </head>
 <body>
   <script type="text/x-handlebars" id='application'>
-    <h2>Welcome to Ember.js {{#link-to 'application'}} Index {{/link-to}}</h2>
+    <h2>Welcome to Ember.js {{#link-to 'application'}} Index {{/link-to}} <br> {{#link-to 'tests'}}JSON{{/link-to}} {{#link-to 'warehouses'}}DSModel{{/link-to}}</h2>
 
     {{outlet}}
   </script>
@@ -21,17 +21,30 @@
     {{/each}}
   </script>
 
-   <script type="text/x-handlebars" id="tests">
+   <!-- <script type="text/x-handlebars" id="tests">
     <ul>
     {{#each}}
       <li>{{title}}, {{name}}: {{#link-to 'tests.test' this}}{{id}}{{/link-to}}</li>
     {{/each}}
     <p>{{day}}</p>
     </ul>
+  </script> -->
+
+    <script type="text/x-handlebars" id="tests">
+ asdfasdf
   </script>
 
-    <script type="text/x-handlebars" id="tests/test">
-  {{title}}
+  <script type="text/x-handlebars" id="warehouses">
+      <ul>
+        {{#each warehouse in model}}
+          <li>{{#link-to 'warehouses.warehouse' warehouse}} {{warehouse.name}} {{/link-to}}</li>
+        {{/each}}
+      </ul>
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" id="warehouses/warehouse">
+  <p>{{this.id}} ({{this.name}})</p>
   </script>
 
   <script type="text/x-handlebars" id="components/blog-post">
