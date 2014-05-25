@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Call R Through OpenCPU</title> 
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js">       </script>
+  <script>
+
+      //When Document is Ready
+      $(function () {
+
+          //Go R button Click Event Handler
+          $("#cmdGoR").click(function () {
+              var resultsUrlPrefix = "http://public.opencpu.org/R/tmp/";
+              var url = "http://public.opencpu.org/R/call/base/identity/save";
+              var rCommands = $("#txtRCommands").val();
+              $.post(url,
+              {
+                  x: rCommands
+              },
+              function (data) {
+                  var obj = $.parseJSON(data);
+
+                  //Add statistical (textual) results to results div
+                  $('#results').append("<br/>");
+                  $('<div/>', {
+                      id: 'statResults'
+                  }).appendTo('#results');
+                  var statResultsLink = resultsUrlPrefix + obj.object + "/print";
+                  $("#statResults").load(statResultsLink);
+
+                  //Add charts results to results div
+                  var charts = obj.graphs;
+                  if (charts.length > 0) {
+                      for (var i = 0; i < charts.length; i++) {
+                          var chartLink = resultsUrlPrefix + charts[i] + "/png";
+                          $('#results').append("<br/>");
+                          $('<img/>', {
+                              id: 'chartResults' + (i + 1),
+                              src: chartLink
+                          }).appendTo('#results');
+                      }
+                  }
+
+              })
+              .error(function (jqXHR, status, error) {
+                  alert(jqXHR.responseText);
+              });
+          });
+
+      });
+
+  </script>
+</head>
+<body>
+
+<h3>Set of R Commands</h3>
+<textarea rows="8" cols="80" id="txtRCommands">
+
+x <- rnorm(1000); 
+print(hist(x));
+
+</textarea> 
+<br />
+<input type="button" value="Run code" id="cmdGoR" />
+
+<div id="results">
+</div>
+
+</body>
+</html>

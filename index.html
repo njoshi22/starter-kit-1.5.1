@@ -35,16 +35,18 @@
   </script>
 
   <script type="text/x-handlebars" id="warehouses">
+      Today is {{day}}
       <ul>
         {{#each warehouse in model}}
-          <li>{{#link-to 'warehouses.warehouse' warehouse}} {{warehouse.name}} {{/link-to}}</li>
+         <li>{{#link-to 'warehouses.warehouse' warehouse}} {{warehouse.name}} {{/link-to}}</li> 
+          <!-- //<li>{{input type=text value=warehouse.name}}</li> -->
         {{/each}}
       </ul>
     {{outlet}}
   </script>
 
   <script type="text/x-handlebars" id="warehouses/warehouse">
-  <p>{{this.id}} ({{this.name}})</p>
+  {{wh-str name=this.name whid=this.id location=this.location}}
   </script>
 
   <script type="text/x-handlebars" id="components/blog-post">
@@ -52,7 +54,18 @@
   <p>This is the {{rln}}.</p>
   </script>
 
+  <script type="text/x-handlebars" id="components/wh-str">
+  <h1>{{name}}</h1>
+  <p>{{action "toggleDetails"}} Details:</p>
+  {{#if isExpanded}}
+  <p>Warehouse ID: {{whid}}
+  <br>
+  Location Code: {{location}}</p>
+  {{/if}}
+  </script>
+
   <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/moment.min.js"></script>
   <script src="js/libs/handlebars-1.1.2.js"></script>
   <script src="js/libs/ember-1.5.1.js"></script>
   <script src="js/libs/ember-data.js"></script>
@@ -60,6 +73,7 @@
   <script src="js/routes.js"></script>
   <script src="js/models.js"></script>
   <script src="js/components.js"></script>
+  <script src="js/controllers.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
   <script src="tests/runner.js"></script>
 </body>

@@ -29,34 +29,16 @@ App.Warehouse = DS.Model.extend({
 });
 
 App.WarehouseSerializer = DS.RESTSerializer.extend({
-   // primaryKey: 'whid',
-    normalize: function(type,hash,property) {
-    	hash.id = hash.whid;
-		return this._super(type,hash,property);
-    }
+   primaryKey: 'whid'
+  //   normalize: function(type,hash,property) {
+  //   	hash.id = hash.whid;
+		// return this._super(type,hash,property);
+  //   }
 });
 
-// App.Product = DS.Model.extend({
-// 	productid: attr(),
-
-// });
-
-// App.Warehouse.FIXTURES = [
-// 	{
-// 		id: 1,
-// 		whid: 'test',
-// 		name: 'yolo',
-// 		location: 'UN-EA'
-// 	},
-// 	{
-// 		id: 2,
-// 		whid: 'test2',
-// 		name: 'oloy',
-// 		location: 'UN-EA'
-// 	}
-// ];
-
-
+App.Product = DS.Model.extend({
+	productid: attr('string')
+});
 
 
 
@@ -70,19 +52,6 @@ App.WarehouseSerializer = DS.RESTSerializer.extend({
 // App.Tests.reopenClass({
 // 	all: function() {
 //       return $.getJSON("http://api.ihackernews.com/page?format=json").then(function(response) {
-//         var items = [];
- 
-//         response.items.forEach( function (item) {
-//           items.push( App.Tests.create(item) );
-//         });
-//           return items;
-//       });
-//   }
-// });
-
-// App.Tests.reopenClass({
-// 	all: function() {
-//       return $.getJSON("http://node-api.azurewebsites.net/api/v1/warehouses").then(function(response) {
 //         var items = [];
  
 //         response.items.forEach( function (item) {
