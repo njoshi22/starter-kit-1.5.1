@@ -55,8 +55,8 @@
   </script>
 
   <script type="text/x-handlebars" id="components/wh-str">
-  <h1>{{name}}</h1>
-  <p>{{action "toggleDetails"}} Details:</p>
+  <h1>{{name}} - {{status}}</h1>
+  <p {{action "toggleDetails" on='click'}}> Details:</p>
   {{#if isExpanded}}
   <p>Warehouse ID: {{whid}}
   <br>
