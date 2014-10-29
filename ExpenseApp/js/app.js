@@ -1,18 +1,11 @@
 App = Ember.Application.create();
 
 App.Store = DS.Store.extend({
-    adapter: DS.RESTAdapter.create({
+    adapter: DS.RESTAdapter.extend({
         host: 'http://neilapi.azurewebsites.net',
-        namespace: 'api'
+        namespace: 'api'    
     })
 });
-
-//App.ApplicationSerializer = DS.RESTSerializer.extend({
-//    normalizePayload: function(payload) {
-//        return payload['data']
-//    }
-//});
-
 
 App.Router.map(function() {
   // put your routes here
@@ -21,6 +14,9 @@ App.Router.map(function() {
 App.IndexRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('expense');
+//        return Ember.$.getJSON("http://neilapi.azurewebsites.net/api/expenses",function(expenses) {
+//            return expenses;
+//        });
     }
 });
 

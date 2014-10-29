@@ -19,8 +19,8 @@
 
   <script type="text/x-handlebars" id="index">
     <ul>
-    {{#each}}
-        <li><aside>{{name}}</aside> - {{amount}}</li>
+    {{#each expense in model.content}}
+        <li><aside>{{expense.name}}</aside> - {{expense.amount}}</li>
     {{/each}}
     </ul>
   </script>
