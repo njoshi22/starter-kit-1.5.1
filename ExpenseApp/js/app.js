@@ -1,10 +1,11 @@
 App = Ember.Application.create();
 
-App.Store = DS.Store.extend({
+App.ApplicationStore = DS.Store.extend({
     adapter: DS.RESTAdapter.extend({
         host: 'http://neilapi.azurewebsites.net',
         namespace: 'api',
         serializer: App.ApplicationSerializer
+    })
 });
 
 App.ApplicationSerializer = DS.RESTSerializer.extend({
@@ -36,11 +37,15 @@ App.IndexController = Ember.ArrayController.extend({
         saveExpense: function() {
             var name = this.get('name');
             var newExpense = this.get('store').createRecord('expense',{
-                name: "Boo",
+                name: name,
                 amount: 20
             });
             newExpense.save();
             this.store.push('expense',newExpense);
+        },
+        deleteExpense: function(expense) {
+            expense.deleteRecord();
+            expense.save();
         }
     }
 });

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/libs/jquery-1.10.2.js"></script>
@@ -21,15 +23,64 @@
 
   <div class="spinner"></div>
 
+  <div>
+    <style scoped>
+
+        .button-xsmall {
+            font-size: 70%;
+        }
+
+        .button-small {
+            font-size: 85%;
+        }
+
+        .button-large {
+            font-size: 110%;
+        }
+
+        .button-xlarge {
+            font-size: 125%;
+        }
+
+.button-success,
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .button-success {
+            background: rgb(28, 184, 65); /* this is a green */
+        }
+
+        .button-error {
+            background: rgb(202, 60, 60); /* this is a maroon */
+        }
+
+        .button-warning {
+            background: rgb(223, 117, 20); /* this is an orange */
+        }
+
+        .button-secondary {
+            background: rgb(66, 184, 221); /* this is a light blue */
+        }
+    </style>
+
   <script type="text/x-handlebars" id="index">
     <ul>
     {{#each}}
-        <li>{{name}} <b><em>(${{amount}})</b></em> - [Expense ID {{id}}]</li>
+        <li><button {{action "deleteExpense" this}} class="pure-button pure-button-primary button-xsmall button-error">
+        <i class="fa fa-close"></i>
+        </button>
+        {{name}} <b><em>(${{amount}})</b></em></li>
     {{/each}}
-    {{input value=name action="saveExpense" on="enter"}}
+    <li>{{input value=name action="saveExpense" on="enter" placeholder="New expense name here"}}</li>
     </ul>
 
   </script>
+  </div>
 
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="js/charts.js"></script>
