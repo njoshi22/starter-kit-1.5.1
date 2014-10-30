@@ -2,3 +2,35 @@
 .ember-application {
     margin: 20px;
 }
+
+.spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	background: url(http://loadinggif.com/images/image-selection/3.gif) no-repeat;
+	/*background: url(http://i.imgur.com/Kh2Osoy.gif) no-repeat;*/
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-top: -16px;
+	margin-left: -16px;
+}
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: blue;
+}
+
+.x.axis path {
+  display: none;
+}
