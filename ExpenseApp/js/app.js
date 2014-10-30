@@ -46,7 +46,17 @@ App.IndexController = Ember.ArrayController.extend({
         deleteExpense: function(expense) {
             expense.deleteRecord();
             expense.save();
-        }
+        },
+        sumExpenses: function() {
+            var expenses = this.store.find('expense');
+            var res = 0;
+            var amounts = expenses.mapBy('amount');
+            amounts.forEach(function(item){
+                res += item;
+            });
+
+            return res;
+        }.property('expenses.@each.amount')
     }
 });
 

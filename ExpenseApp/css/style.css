@@ -3,6 +3,10 @@
     margin: 20px;
 }
 
+#mainHeading {
+	position: center;
+}
+
 .spinner {
 	position: absolute;
 	top: 50%;

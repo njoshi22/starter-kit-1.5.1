@@ -15,7 +15,7 @@
 </head>
 <body>
   <script type="text/x-handlebars">
-    <h2>ExpenseApp</h2>
+    <h2 id="mainHeading">ExpenseApp</h2>
     <div id="statusbox">Record saved.</div>
     <br>
     {{outlet}}
@@ -69,6 +69,9 @@
     </style>
 
   <script type="text/x-handlebars" id="index">
+
+Total: {{sumExpenses}}
+
     <ul>
     {{#each}}
         <li><button {{action "deleteExpense" this}} class="pure-button pure-button-primary button-xsmall button-error">
