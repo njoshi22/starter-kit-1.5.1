@@ -41,7 +41,7 @@ App.IndexController = Ember.ArrayController.extend({
                 amount: 20
             });
             newExpense.save();
-            this.store.push('expense',newExpense);
+            // this.store.push('expense',newExpense);
         },
         deleteExpense: function(expense) {
             expense.deleteRecord();
@@ -56,7 +56,7 @@ App.IndexController = Ember.ArrayController.extend({
             });
 
             return res;
-        }.property('expenses.@each.amount')
+        }.property('@each.amount')
     }
 });
 
