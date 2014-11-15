@@ -22,9 +22,6 @@
    <script type="text/x-handlebars">
     <h2 id="mainHeading">ExpenseApp</h2>
 
-    {{#link-to 'charts'}}Charts{{/link-to}}
-    {{#link-to 'index'}}Index{{/link-to}}
-
     {{outlet}}
 
   </script>
@@ -56,7 +53,7 @@
         }
     </style>
 
-  <script type="text/x-handlebars" id="index">
+  <script type="text/x-handlebars" id="expenses">
     <p>Expenses: {{expenseCount}}</p>
     <ul>
     {{#each}}
@@ -67,9 +64,10 @@
     {{/each}}
     <li>{{input value=name action="saveExpense" on="enter" placeholder="New expense name here"}}</li>
     </ul>
+    {{outlet chartsarea}}
   </script>
 
-   <script type="text/x-handlebars" id='charts'>
+   <script type="text/x-handlebars" id='expenses/index'>
     <div class="chart-container">
       <!-- <button {{action "getData"}}>Reload</button> -->
       {{horizontal-bar-chart data=getData}}
