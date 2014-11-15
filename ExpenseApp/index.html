@@ -2,6 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Expense Application</title>
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
@@ -9,16 +11,22 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+      <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css">
+  <link rel="stylesheet" href="http://rawgit.com/Addepar/ember-charts/v0.3.0/dist/ember-charts.css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/libs/jquery-1.10.2.js"></script>
 </head>
 <body>
-  <script type="text/x-handlebars">
+
+   <script type="text/x-handlebars">
     <h2 id="mainHeading">ExpenseApp</h2>
-    <div id="statusbox">Record saved.</div>
-    <br>
+
+    {{#link-to 'charts'}}Charts{{/link-to}}
+    {{#link-to 'index'}}Index{{/link-to}}
+
     {{outlet}}
+
   </script>
 
   <div class="spinner"></div>
@@ -30,18 +38,6 @@
             font-size: 70%;
         }
 
-        .button-small {
-            font-size: 85%;
-        }
-
-        .button-large {
-            font-size: 110%;
-        }
-
-        .button-xlarge {
-            font-size: 125%;
-        }
-
 .button-success,
         .button-error,
         .button-warning,
@@ -51,16 +47,8 @@
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
-        .button-success {
-            background: rgb(28, 184, 65); /* this is a green */
-        }
-
         .button-error {
             background: rgb(202, 60, 60); /* this is a maroon */
-        }
-
-        .button-warning {
-            background: rgb(223, 117, 20); /* this is an orange */
         }
 
         .button-secondary {
@@ -69,9 +57,7 @@
     </style>
 
   <script type="text/x-handlebars" id="index">
-
-Total: {{sumExpenses}}
-
+    <p>Expenses: {{expenseCount}}</p>
     <ul>
     {{#each}}
         <li><button {{action "deleteExpense" this}} class="pure-button pure-button-primary button-xsmall button-error">
@@ -81,17 +67,27 @@ Total: {{sumExpenses}}
     {{/each}}
     <li>{{input value=name action="saveExpense" on="enter" placeholder="New expense name here"}}</li>
     </ul>
-
   </script>
-  </div>
 
-  <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="js/charts.js"></script>
+   <script type="text/x-handlebars" id='charts'>
+    <div class="chart-container">
+      <!-- <button {{action "getData"}}>Reload</button> -->
+      {{horizontal-bar-chart data=getData}}
+    </div>
+  </script>
+
+   <!--// {{c3-chart data=c3data}} -->
+
+  <script src="js/libs/d3.min.js"></script>
+  <script src="js/libs/c3.min.js"></script>
 <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/handlebars-v1.3.0.js"></script>
   <script src="js/libs/ember-1.7.0.js"></script>
-  <!-- <script src="bower_components/ember-data/ember-data.js"></script> -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.11/ember-data.js"></script>
+  <script src="js/libs/ember-c3.js"></script>
+  <script src="bower_components/ember-data/ember-data.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="js/libs/ember-charts.js"></script>
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.11/ember-data.js"></script> -->
   <script src="js/app.js"></script>
   <script src="js/barchart.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
