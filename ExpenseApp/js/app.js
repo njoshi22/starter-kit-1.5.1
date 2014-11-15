@@ -14,29 +14,21 @@ App.ApplicationSerializer = DS.RESTSerializer.extend({
 
 // App.ApplicationAdapter = DS.FixtureAdapter();
 
-// App.ApplicationController = Ember.Controller.extend({
-//     currentPathDidChange: function() {
-//         Ember.run.schedule('afterRender',this,function() {
-//             console.log('route changed');
-//             this.store.all('expense').update();
-//         });
-//     }.observes('currentPath')
-// });
+App.ApplicationController = Ember.Controller.extend({
+    currentPathDidChange: function() {
+        Ember.run.schedule('afterRender',this,function() {
+            console.log('route changed');
+            this.store.all('expense').update();
+        });
+    }.observes('currentPath')
+});
 
 App.Router.map(function() {
   // put your routes here
-  this.resource('expenses',function() {
-    this.route('charts');
-  });
+  this.resource('charts');
 });
 
 App.IndexRoute = Ember.Route.extend({
-    beforeModel: function() {
-        this.transitionTo('expenses');
-    }
-});
-
-App.ExpensesRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('expense');
     },
@@ -52,7 +44,7 @@ App.ExpensesRoute = Ember.Route.extend({
     }
 });
 
-App.ExpensesController = Ember.ArrayController.extend({
+App.IndexController = Ember.ArrayController.extend({
     actions: {
         saveExpense: function() {
             var name = this.get('name');
@@ -77,13 +69,29 @@ App.ExpensesController = Ember.ArrayController.extend({
     }.property('@each')
 });
 
-App.ExpensesIndexRoute = Ember.Route.extend({
-    renderTemplate: function() {
-        this.render({outlet: 'chartsarea'});
-    }
+App.Expense = DS.Model.extend({
+    name: DS.attr('string'),
+    amount: DS.attr('number'),
+    label: function() {
+        return this.get('name');
+    }.property('name'),
+    value: function() {
+        return this.get('amount');
+    }.property('amount'),
+    group: function() {
+        return "expense";
+    }.property()
 });
 
-App.ExpensesIndexController = Ember.Controller.extend({
+App.ChartsRoute = Ember.Route.extend({
+    // setupController: function(controller,model) {
+    //     this._super(controller,model);
+    //     var expenses = this.store.all('expense');
+    //     controller.set('model',expenses);
+    // }
+});
+
+App.ChartsController = Ember.Controller.extend({
      getData: function() {
         // this.store.unloadAll('expense');
         var expenses = this.store.all('expense');
@@ -100,16 +108,42 @@ App.ExpensesIndexController = Ember.Controller.extend({
     }.property().volatile()
 });
 
-App.Expense = DS.Model.extend({
-    name: DS.attr('string'),
-    amount: DS.attr('number'),
-    label: function() {
-        return this.get('name');
-    }.property('name'),
-    value: function() {
-        return this.get('amount');
-    }.property('amount'),
-    group: function() {
-        return "expense";
-    }.property()
-});
+/* yayData: [
+    {
+        "label": "Equity",
+        "value": 12935781.176999997,
+        "group": "money"
+    },
+    {
+        "label": "Real Assets",
+        "value": 10475849.276172025,
+        "group": "money"
+    },
+    {
+        "label": "Fixed Income",
+        "value": 8231078.16438347,
+        "group": "money"
+    },
+    {
+        "label": "Cash & Cash Equivalent",
+        "value": 5403418.115000006,
+        "group": "money"
+    },
+    {
+        "label": "Hedge Fund",
+        "value": 1621341.246006786,
+        "group": "money"
+    },
+    {
+        "label": "Private Equity",
+        "value": 1574677.59,
+        "group": "money"
+    }
+  ] */
+
+  // App.Expense.FIXTURES = [
+  //   {
+  //       name: "Expense 1",
+  //       amount: 20
+  //   }
+  // ];
