@@ -21,7 +21,7 @@ App.Router.map(function() {
 // This gets rid of the # part of the app using HTMl5 history API
 App.Router.reopen({
     location: 'history',
-    rootURL: '/index.html'
+    rootURL: '/ExpenseApp/'
 });
 
 App.ApplicationController = Ember.Controller.extend({
