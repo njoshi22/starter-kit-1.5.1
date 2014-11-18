@@ -26,6 +26,50 @@ App.Router.map(function() {
 //     rootURL: '/ExpenseApp/'
 // });
 
+App.ApplicationController = Ember.Controller.extend({
+    modalButtons: [
+        Ember.Object.create({title: 'Submit', clicked:"saveExpense"}),
+        Ember.Object.create({title: 'Cancel', dismiss: 'modal'})
+    ],
+    selectedGroup: null,
+    groupChoices: [
+        {
+            title: 'Unfiled Expenses'
+        },
+        {
+            title: 'Filed Expenses'
+        }
+    ],
+    actions: {
+        showModal: function() {
+            Bootstrap.ModalManager.open('expenseModal','Add new expense',
+                'new-expense',this.modalButtons,this);
+        },
+        saveExpense: function() {
+            var name = this.get('name');
+            var amount = this.get('amount');
+            var group = this.get('selectedGroup.title');
+            if(name=='' || amount==''||!name||!amount) {
+                alert('You must enter values for both fields');
+                return false;
+            } else {
+                var newExpense = this.get('store').createRecord('expense',{
+                    name: name,
+                    //amount: Math.floor(Math.random()*20*1.5)
+                    amount: amount
+                });
+                newExpense.save();
+                this.set('name','');
+                this.set('amount','');
+                // this.transitionTo('expenses.index');
+                Bootstrap.NM.push('Expense created!','success');
+                Bootstrap.ModalManager.close('expenseModal');
+                return true;
+            }
+        }
+    }
+});
+
 App.IndexRoute = Ember.Route.extend({
     beforeModel: function() {
         this.transitionTo('expenses');
@@ -53,7 +97,20 @@ App.ExpensesIndexRoute = Ember.Route.extend({
 
 App.ExpensesIndexController = Ember.ArrayController.extend({
     actions: {
+        deleteExpense: function(expense) {
+            expense.destroyRecord();
+        }
+    },
+    expenseCount: function() {
+        return this.get('model.length');
+    }.property('@each')
+});
+
+App.ExpensesAddController = Ember.ArrayController.extend({
+    success: false,
+    actions: {
         saveExpense: function() {
+            console.log('button clicked');
             var name = this.get('name');
             var amount = this.get('amount');
             if(name=='' || amount==''||!name||!amount) {
@@ -67,25 +124,17 @@ App.ExpensesIndexController = Ember.ArrayController.extend({
                 });
                 newExpense.save();
                 this.set('name','');
+                this.set('amount','');
+                // this.transitionTo('expenses.index');
+                this.set('success',true);
+                return true;
             }
-        },
-        deleteExpense: function(expense) {
-            expense.destroyRecord();
         }
-    },
-    expenseCount: function() {
-        return this.get('model.length');
-    }.property('@each')
-});
-
-App.ExpensesAddRoute = Ember.Route.extend({
-
+    }
 });
 
 App.ExpensesChartsRoute = Ember.Route.extend({
-
     setupController: function(controller,model) {
-
         var expenses = this.store.all('expense');
         var subset = Ember.A();
         expenses.forEach(function(expense) {
@@ -97,5 +146,4 @@ App.ExpensesChartsRoute = Ember.Route.extend({
         });
         controller.set('model',subset);
     } 
-
 });

@@ -10,8 +10,8 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-theme.css"> -->
     <link rel="stylesheet" href="css/bootstrap.css">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
-      <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css">
+    <link rel="stylesheet" href="css/pure-min.css">
+      <link rel="stylesheet" href="css/normalize.css">
   <link rel='stylesheet' href="css/stylenew.css">
   <link rel="stylesheet" href="css/ember-charts.css">
   <link rel="stylesheet" href="css/ember-widgets.css">
@@ -59,19 +59,24 @@
 </div>
 <div id="wrapper">
 
-  <div id="sidebar-wrapper" class="col-md-1">
+  <div id="sidebar-wrapper" class="col-md-2">
       <div id="sidebar">
-          <ul class="list-unstyled">
+          <ul class="nav list-unstyled">
+              <!-- <li>
+              //     {{#link-to 'expenses.add'}}
+              //     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add new
+              //     {{/link-to}}
+              // </li> -->
               <li>
-                  {{#link-to 'expenses.add' class='list-group-item'}}
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                  Add new
-                  {{/link-to}}
+                  {{#bs-button title="" clicked="showModal"}}
+                  <span class='glyphicon glyphicon-plus' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;Add New
+                  {{/bs-button}}
               </li>
           </ul>
       </div>
   </div>
-  <div id="main-wrapper" class="col-md-11 pull-right">
+  <div id="main-wrapper" class="col-md-10 pull-right">
+    {{bs-notifications style="z-index: 1000; position: fixed; width: 50%; left: 0; right: 0; margin-left: auto; margin-right: auto; margin-top: 50px; font-size: 16px; font-weight: bold;"}}
     <div id="main">
       {{outlet}}
     </div>
@@ -96,29 +101,43 @@
         {{group}} 
         {{name}} <b><em>(${{amount}})</b></em></li>
     {{/each}}
-    <li>
-    {{input value=name placeholder="New expense name here"}} 
-    $({{input value=amount placeholder="20" class="inputamount"}})
-    <button {{action "saveExpense"}}>Save</button>
-    </li>
     </ul>
   </script>
 
-   <script type="text/x-handlebars" id='expenses/charts'>
+  <script type="text/x-handlebars" id='expenses/charts'>
     <div class="chart-container">
       {{vertical-bar-chart data=model}}
     </div>
   </script>
 
-  <script type="text/x-handlebars" id='expenses/add'>
+<script type="text/x-handlebars" id='expenses/add'>
+    {{#if success}}
+    <div class="alert alert-success" role="alert" id='expenseSuccess'><strong>Expense created!</strong></div>
+    {{/if}}
     <dl class="dl-horizontal">
       <dt>Expense name</dt>
       <dd>{{input value=name placeholder="Expense name here"}}</dd>
       <dt>Amount ($)</dt>
-      <dd>{{input value=amount placeholder="$20" class="inputamount"}}</dd>
+      <dd>{{input value=amount placeholder="$20" action="saveExpense" on="enter"}}</dd>
       <dd><br></dd>
       <dd><button {{action "saveExpense"}}>Save</button></dd>
     </dl>
+  </script>
+
+  <script type="text/x-handlebars" id="new-expense">
+  <dl class="dl-horizontal">
+      <dt>Expense name</dt>
+      <dd>{{input value=name placeholder="Expense name here"}}</dd>
+      <dt>Amount ($)</dt>
+      <dd>{{input value=amount placeholder="$20" action="saveExpense" on="enter"}}</dd>
+    </dl>
+    {{select-component
+        contentBinding="groupChoices"
+        prompt="Select group"
+        optionLabelPath="title"
+        optionValuePath="title"
+        selectionBinding="selectedGroup"
+      }}
   </script>
 
   <!--// Do not edit below this line unless adding libraries //-->
@@ -158,11 +177,17 @@
   <script src="bower_components/ember-data/ember-data.js"></script>
   <script src="js/libs/lodash.min.js"></script>
   <script src="js/libs/list-view-latest.js"></script>
+  <script src="js/libs/bs-core.min.js"></script>
+  <script src="js/libs/bs-modal.min.js"></script>
+  <script src="js/libs/bs-alert.min.js"></script>
+  <script src="js/libs/bs-button.min.js"></script>
+  <script src="js/libs/bs-notifications.min.js"></script>
   <script src="js/libs/ember-charts.js"></script>
   <script src="js/libs/ember-widgets.js"></script>
 <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.11/ember-data.js"></script> -->
   <script src="js/app.js"></script>
   <script src="js/models.js"></script>
+  <script src="js/views.js"></script>
   <!-- to activate the test runner, add the "?test" query string parameter -->
   <script src="tests/runner.js"></script>
 </body>
