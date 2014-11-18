@@ -15,6 +15,7 @@ App.ApplicationSerializer = DS.RESTSerializer.extend({
 App.Router.map(function() {
     this.resource('expenses',function() {
         this.route('charts');
+        this.route('add')
     });
 });
 
@@ -24,15 +25,6 @@ App.Router.map(function() {
 //     location: 'history',
 //     rootURL: '/ExpenseApp/'
 // });
-
-App.ApplicationController = Ember.Controller.extend({
-    currentPathDidChange: function() {
-        Ember.run.schedule('afterRender',this,function() {
-            console.log('route changed');
-            this.store.all('expense').update();
-        });
-    }.observes('currentPath')
-});
 
 App.IndexRoute = Ember.Route.extend({
     beforeModel: function() {
@@ -56,16 +48,6 @@ App.ExpensesRoute = Ember.Route.extend({
 App.ExpensesIndexRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('expense');
-    },
-    actions: {
-        loading: function(transition) {
-            var el = $('.spinner');
-            el.show();
-            transition.then(function() {
-                el.hide();
-            });
-            return true;
-        }
     }
 });
 
@@ -86,13 +68,8 @@ App.ExpensesIndexController = Ember.ArrayController.extend({
                 newExpense.save();
                 this.set('name','');
             }
-            // this.get('model').pushObject(newExpense);
-            // this.get('store').reload();
-            //this.store.update('expense',newExpense);
         },
         deleteExpense: function(expense) {
-            // expense.deleteRecord();
-            // expense.save();
             expense.destroyRecord();
         }
     },
@@ -101,18 +78,8 @@ App.ExpensesIndexController = Ember.ArrayController.extend({
     }.property('@each')
 });
 
-App.Expense = DS.Model.extend({
-    name: DS.attr('string'),
-    amount: DS.attr('number'),
-    label: function() {
-        return this.get('name');
-    }.property('name'),
-    value: function() {
-        return this.get('amount');
-    }.property('amount'),
-    group: function() {
-        return "expense";
-    }.property()
+App.ExpensesAddRoute = Ember.Route.extend({
+
 });
 
 App.ExpensesChartsRoute = Ember.Route.extend({
