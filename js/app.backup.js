@@ -20,10 +20,10 @@ App.Router.map(function() {
 
 // This gets rid of the # part of the app using HTMl5 history API.
 // DISABLED FOR LOCALLY VIEWING FILES. ENABLE FOR SERVER UPLOAD.
-App.Router.reopen({
-    location: 'history',
-    rootURL: '/ExpenseApp/'
-});
+// App.Router.reopen({
+//     location: 'history',
+//     rootURL: '/ExpenseApp/'
+// });
 
 App.ApplicationController = Ember.Controller.extend({
     currentPathDidChange: function() {
