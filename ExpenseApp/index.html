@@ -12,7 +12,9 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
       <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css">
-  <link rel="stylesheet" href="http://rawgit.com/Addepar/ember-charts/v0.3.0/dist/ember-charts.css">
+  <link rel='stylesheet' href="css/stylenew.css">
+  <link rel="stylesheet" href="css/ember-charts.css">
+  <link rel="stylesheet" href="css/ember-widgets.css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="js/libs/jquery-1.10.2.js"></script>
@@ -21,9 +23,6 @@
 
    <script type="text/x-handlebars">
     <h2 id="mainHeading">ExpenseApp</h2>
-
-    {{#link-to 'charts'}}Charts{{/link-to}}
-    {{#link-to 'index'}}Index{{/link-to}}
 
     {{outlet}}
 
@@ -56,7 +55,62 @@
         }
     </style>
 
-  <script type="text/x-handlebars" id="index">
+  <script type="text/x-handlebars" id="expenses">
+      <div id="header" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <i class="icon-reorder"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+            Expense Application
+        </a>
+    </div>
+    <nav class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <a {{bind-attr href='expenses.index'}}>Index</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras
+              <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">{{#link-to 'expenses.charts'}}Charts{{/link-to}}</a></li>
+                </ul>
+            </li>
+        </ul>
+       <!-- <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" id="nbAcctDD" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>Username<i class="icon-sort-down"></i></a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#">Log Out</a></li>
+                </ul>
+            </li>
+        </ul> -->
+    </nav>
+</div>
+<div id="wrapper">
+  <div id="sidebar-wrapper" class="col-md-1">
+            <div id="sidebar">
+                <ul class="nav list-group">
+                    <li>
+                        <a class="list-group-item" href="#"><i class="icon-home icon-1x"></i>Sidebar Item 1</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="main-wrapper" class="col-md-11 pull-right">
+            <div id="main">
+              <div class="page-header">
+              {{outlet}}
+                <h3>Admin</h3>
+              </div>
+              <p>Boo.</p>
+            </div>
+        </div>
+</div>
+  </script>
+
+  <script type="text/x-handlebars" id="expenses/index">
     <p>Expenses: {{expenseCount}}</p>
     <ul>
     {{#each}}
@@ -65,20 +119,21 @@
         </button>
         {{name}} <b><em>(${{amount}})</b></em></li>
     {{/each}}
-    <li>{{input value=name action="saveExpense" on="enter" placeholder="New expense name here"}}</li>
+    <li>
+    {{input value=name placeholder="New expense name here"}} 
+    $({{input value=amount placeholder="20" class="inputamount"}})
+    <button {{action "saveExpense"}}>Save</button>
+    </li>
     </ul>
   </script>
 
-   <script type="text/x-handlebars" id='charts'>
+   <script type="text/x-handlebars" id='expenses/charts'>
     <div class="chart-container">
-      <!-- <button {{action "getData"}}>Reload</button> -->
-      {{horizontal-bar-chart data=getData}}
+      {{vertical-bar-chart data=model}}
     </div>
   </script>
 
-   <!--// {{c3-chart data=c3data}} -->
-
-  <script src="js/libs/d3.min.js"></script>
+   <script src="js/libs/d3.min.js"></script>
   <script src="js/libs/c3.min.js"></script>
 <script src="js/libs/bootstrap.js"></script>
   <script src="js/libs/handlebars-v1.3.0.js"></script>
@@ -86,7 +141,9 @@
   <script src="js/libs/ember-c3.js"></script>
   <script src="bower_components/ember-data/ember-data.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+  <script src="http://builds.emberjs.com/list-view/list-view-latest.js"></script>
   <script src="js/libs/ember-charts.js"></script>
+  <script src="js/libs/ember-widgets.js"></script>
 <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/ember-data.js/1.0.0-beta.11/ember-data.js"></script> -->
   <script src="js/app.js"></script>
   <script src="js/barchart.js"></script>

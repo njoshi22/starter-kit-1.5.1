@@ -1413,7 +1413,7 @@ pre code {
 }
 .container-fluid {
   padding-right: 15px;
-  padding-left: 15px;
+  padding-left: 0px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -3774,7 +3774,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar {
-    border-radius: 4px;
+    border-radius: 0px;
   }
 }
 @media (min-width: 768px) {

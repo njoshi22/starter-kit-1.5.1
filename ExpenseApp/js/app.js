@@ -12,7 +12,17 @@ App.ApplicationSerializer = DS.RESTSerializer.extend({
     primaryKey: '_id'
 });
 
-// App.ApplicationAdapter = DS.FixtureAdapter();
+App.Router.map(function() {
+    this.resource('expenses',function() {
+        this.route('charts');
+    });
+});
+
+// This gets rid of the # part of the app using HTMl5 history API
+App.Router.reopen({
+    location: 'history',
+    rootURL: '/index.html'
+});
 
 App.ApplicationController = Ember.Controller.extend({
     currentPathDidChange: function() {
@@ -23,12 +33,26 @@ App.ApplicationController = Ember.Controller.extend({
     }.observes('currentPath')
 });
 
-App.Router.map(function() {
-  // put your routes here
-  this.resource('charts');
+App.IndexRoute = Ember.Route.extend({
+    beforeModel: function() {
+        this.transitionTo('expenses');
+    }
 });
 
-App.IndexRoute = Ember.Route.extend({
+App.ExpensesRoute = Ember.Route.extend({
+    actions: {
+        loading: function(transition) {
+            var el = $('.spinner');
+            el.show();
+            transition.then(function() {
+                el.hide();
+            });
+            return true;
+        }
+    }
+});
+
+App.ExpensesIndexRoute = Ember.Route.extend({
     model: function() {
         return this.store.find('expense');
     },
@@ -44,16 +68,23 @@ App.IndexRoute = Ember.Route.extend({
     }
 });
 
-App.IndexController = Ember.ArrayController.extend({
+App.ExpensesIndexController = Ember.ArrayController.extend({
     actions: {
         saveExpense: function() {
             var name = this.get('name');
-            var newExpense = this.get('store').createRecord('expense',{
-                name: name,
-                amount: Math.floor(Math.random()*20*1.5)
-            });
-            newExpense.save();
-            this.set('name') = '';
+            var amount = this.get('amount');
+            if(name=='' || amount==''||!name||!amount) {
+                alert('You must enter values for both fields');
+                return false;
+            } else {
+                var newExpense = this.get('store').createRecord('expense',{
+                    name: name,
+                    //amount: Math.floor(Math.random()*20*1.5)
+                    amount: amount
+                });
+                newExpense.save();
+                this.set('name','');
+            }
             // this.get('model').pushObject(newExpense);
             // this.get('store').reload();
             //this.store.update('expense',newExpense);
@@ -83,67 +114,40 @@ App.Expense = DS.Model.extend({
     }.property()
 });
 
-App.ChartsRoute = Ember.Route.extend({
-    // setupController: function(controller,model) {
-    //     this._super(controller,model);
-    //     var expenses = this.store.all('expense');
-    //     controller.set('model',expenses);
-    // }
-});
+// App.ExpensesChartsController = Ember.Controller.extend({
+//      getData: function() {
+//         // this.store.unloadAll('expense');
+//         var expenses = this.store.all('expense');
+//         expenses.update();
+//         var retarr = Ember.A();
+//         expenses.forEach(function(expense) {
+//             retarr.pushObject({
+//                 label: expense.get('name'),
+//                 value: expense.get('amount'),
+//                 group: function() {
+//                     var choices = ["Group 1","Group 2"];
+//                     return choices[Math.floor(Math.random*choices.length)];
+//                 }.property()
+//             });
+//         });
+//         return retarr;
+//     }.property().volatile()
+// });
 
-App.ChartsController = Ember.Controller.extend({
-     getData: function() {
-        // this.store.unloadAll('expense');
+App.ExpensesChartsRoute = Ember.Route.extend({
+
+    setupController: function(controller,model) {
+
         var expenses = this.store.all('expense');
-        expenses.update();
-        var retarr = Ember.A();
+        var subset = Ember.A();
         expenses.forEach(function(expense) {
-            retarr.pushObject({
-                label: expense.get('name'),
-                value: expense.get('amount'),
-                group: 'expense'
+            subset.pushObject({
+                label: expense.get('label'),
+                value: expense.get('value'),
+                group: expense.get('group')
             });
         });
-        return retarr;
-    }.property().volatile()
+        controller.set('model',subset);
+    } 
+
 });
-
-/* yayData: [
-    {
-        "label": "Equity",
-        "value": 12935781.176999997,
-        "group": "money"
-    },
-    {
-        "label": "Real Assets",
-        "value": 10475849.276172025,
-        "group": "money"
-    },
-    {
-        "label": "Fixed Income",
-        "value": 8231078.16438347,
-        "group": "money"
-    },
-    {
-        "label": "Cash & Cash Equivalent",
-        "value": 5403418.115000006,
-        "group": "money"
-    },
-    {
-        "label": "Hedge Fund",
-        "value": 1621341.246006786,
-        "group": "money"
-    },
-    {
-        "label": "Private Equity",
-        "value": 1574677.59,
-        "group": "money"
-    }
-  ] */
-
-  // App.Expense.FIXTURES = [
-  //   {
-  //       name: "Expense 1",
-  //       amount: 20
-  //   }
-  // ];
