@@ -1,11 +1,11 @@
-/* Put your CSS here */
-.ember-application {
+ /*Put your CSS here */
+/*.ember-application {
     margin: 0px;
 }
 
 #mainHeading {
 	position: center;
-}
+}*/
 
 .spinner {
 	position: absolute;
@@ -20,7 +20,7 @@
 	margin-left: -16px;
 }
 
-body {
+/*body {
   font: 10px sans-serif;
 }
 
@@ -40,12 +40,12 @@ body {
 }
 
 .button-error {
-            background: rgb(202, 60, 60); /* this is a maroon */
+            background: rgb(202, 60, 60); /* this is a maroon */ 
+            /*
             color: white;
             border-radius: 4px;
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        }
-
+        }*/
 
 input {
 	background-color:transparent;
@@ -69,14 +69,4 @@ input .inputamount {
   height: 250px;
 }
 
-/* NAVBAR CSS CODE */
-
-body {
-  min-height: 2000px;
-}
-
-.navbar-static-top {
-  margin-bottom: 19px;
-}
-
-/* END */
+/* END 

@@ -23,8 +23,58 @@
 
    <script type="text/x-handlebars">
     <h2 id="mainHeading">ExpenseApp</h2>
+          <div id="header" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+            <i class="icon-reorder"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+            Expense Application
+        </a>
+    </div>
+    <nav class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                {{#link-to 'expenses.index'}}Index{{/link-to}}
+            </li>
+            <li>
+              {{#link-to 'expenses.charts'}}Charts{{/link-to}}
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras
+              <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>{{#link-to 'expenses.charts'}}Charts{{/link-to}}</li>
+                </ul>
+            </li>
+        </ul>
+       <!-- <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" id="nbAcctDD" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>Username<i class="icon-sort-down"></i></a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#">Log Out</a></li>
+                </ul>
+            </li>
+        </ul> -->
+    </nav>
+</div>
+<div id="wrapper">
 
-    {{outlet}}
+  <div id="sidebar-wrapper" class="col-md-1">
+      <div id="sidebar">
+          <ul class="nav list-group">
+              <li>
+                  <a class="list-group-item" href="#"><i class="icon-home icon-1x"></i>Sidebar Item 1</a>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <div id="main-wrapper" class="col-md-11 pull-right">
+    <div id="main">
+      {{outlet}}
+    </div>
+  </div>
+</div>
 
   </script>
 
@@ -55,60 +105,9 @@
         }
     </style>
 
-  <script type="text/x-handlebars" id="expenses">
-      <div id="header" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-header">
-        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-            <i class="icon-reorder"></i>
-        </button>
-        <a class="navbar-brand" href="#">
-            Expense Application
-        </a>
-    </div>
-    <nav class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li>
-                <a {{bind-attr href='expenses.index'}}>Index</a>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Extras
-              <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">{{#link-to 'expenses.charts'}}Charts{{/link-to}}</a></li>
-                </ul>
-            </li>
-        </ul>
-       <!-- <ul class="nav navbar-nav pull-right">
-            <li class="dropdown">
-                <a href="#" id="nbAcctDD" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>Username<i class="icon-sort-down"></i></a>
-                <ul class="dropdown-menu pull-right">
-                    <li><a href="#">Log Out</a></li>
-                </ul>
-            </li>
-        </ul> -->
-    </nav>
-</div>
-<div id="wrapper">
-  <div id="sidebar-wrapper" class="col-md-1">
-            <div id="sidebar">
-                <ul class="nav list-group">
-                    <li>
-                        <a class="list-group-item" href="#"><i class="icon-home icon-1x"></i>Sidebar Item 1</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div id="main-wrapper" class="col-md-11 pull-right">
-            <div id="main">
-              <div class="page-header">
-              {{outlet}}
-                <h3>Admin</h3>
-              </div>
-              <p>Boo.</p>
-            </div>
-        </div>
-</div>
-  </script>
+ <!-- <script type="text/x-handlebars" id="expenses">
+  {{outlet}}
+  </script> -->
 
   <script type="text/x-handlebars" id="expenses/index">
     <p>Expenses: {{expenseCount}}</p>
